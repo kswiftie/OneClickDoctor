@@ -1,0 +1,23 @@
+{
+  "image": "cr.weaviate.io/semitechnologies/weaviate:1.31.5",
+  "name": "weaviate",
+  "detach": true,
+  "restart_policy": {
+    "Name": "on-failure",
+    "MaximumRetryCount": 0
+  },
+  "network": "weaviate_net",
+  "ports": {
+    "8080/tcp": 8080,
+    "50051/tcp": 50051
+  },
+  "environment": {
+    "QUERY_DEFAULTS_LIMIT": "20",
+    "AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED": "true",
+    "PERSISTENCE_DATA_PATH": "./data",
+    "DEFAULT_VECTORIZER_MODULE": "text2vec-transformers",
+    "ENABLE_MODULES": "text2vec-transformers",
+    "TRANSFORMERS_INFERENCE_API": "http://t2v-transformers:8080",
+    "CLUSTER_HOSTNAME": "node1"
+  }
+}

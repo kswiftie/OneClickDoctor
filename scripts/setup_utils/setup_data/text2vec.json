@@ -1,0 +1,13 @@
+{
+  "image": "cr.weaviate.io/semitechnologies/transformers-inference:sentence-transformers-multi-qa-MiniLM-L6-cos-v1",
+  "name": "t2v-transformers",
+  "detach": true,
+  "restart_policy": {
+    "Name": "on-failure",
+    "MaximumRetryCount": 0
+  },
+  "network": "weaviate_net",
+  "environment": {
+    "ENABLE_CUDA": "0"
+  }
+}

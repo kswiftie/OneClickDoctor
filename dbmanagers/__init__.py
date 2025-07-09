@@ -1,0 +1,1 @@
+from dbmanagers.vectordbmanagers.weaviate_manager import WManager
