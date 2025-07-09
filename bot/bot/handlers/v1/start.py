@@ -1,10 +1,9 @@
 from aiogram import types, Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from states import ChatState
-from .doctor import show_city_selection
+from keyboards.inline import main_menu_kb
 
 router = Router()
 
@@ -20,17 +19,9 @@ async def start_handler(message: types.Message, state: FSMContext):
             '*Я помогу тебе с подбором врача.*\n\n'
             'Если ты уже знаешь, какой специалист тебе нужен — '
             'воспользуйся кнопкой _"Подобрать врача"._\n'
-            'А если *пока не уверен(а)*, какой врач подходит — опиши свои симптомы, и я помогу разобраться. 💬'
+            'А если *пока не уверен(а)*, какой врач подходит — '
+            'опиши свои симптомы, и я помогу разобраться. 💬'
         ),
         parse_mode='Markdown',
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(
-                text='🩺 Подобрать врача',
-                callback_data='find_doctor')]
-        ])
+        reply_markup=main_menu_kb()
     )
-
-
-@router.message(Command("find_doctor"))
-async def find_doctor_command(message: types.Message, state: FSMContext):
-    await show_city_selection(message, state)
