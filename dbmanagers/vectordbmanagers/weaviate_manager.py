@@ -38,16 +38,22 @@ class WManager:
     def get_data(self, collection_name: str, limit: int = 10):
 
         cur_collection = self.client.collections.get(collection_name)
-        return cur_collection.query.fetch_objects(limit=limit)
+        return [
+            obj.properties
+            for obj in cur_collection.query.fetch_objects(limit=limit).objects
+        ]
 
     def search_near_data(
         self, collection_name: str, input_data: str, count_of_neighbours: int = 5
     ):
         cur_collection = self.client.collections.get(collection_name)
 
-        return cur_collection.query.near_text(
-            query=input_data, limit=count_of_neighbours
-        )
+        return [
+            obj.properties
+            for obj in cur_collection.query.near_text(
+                query=input_data, limit=count_of_neighbours
+            ).objects
+        ]
 
     def add_data(
         self,

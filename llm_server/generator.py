@@ -1,7 +1,8 @@
+import torch
+from dbmanagers.vectordbmanagers.weaviate_manager import WManager
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
 
 
 class GenerationRequest(BaseModel):
@@ -13,11 +14,10 @@ class GenerationRequest(BaseModel):
 
 class ModelService:
     def __init__(self, model_name: str, device: str = "cpu"):
-        self.MODEL_ID = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
         self.device = device
         self.model_name = model_name
+        self.dbmanager = WManager()
 
-        # Инициализация токенизатора и модели
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.model_name, trust_remote_code=True
         )
@@ -78,9 +78,21 @@ class ModelService:
         temperature: float = 1.0,
         top_p: float = 0.9,
     ) -> str:
-        """Генерирует текст на основе prompt'а"""
+        """Generates text based on prompt"""
         try:
-            inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
+            helpful_data = self.dbmanager.search_near_data("SymptomDisease", prompt, 1)[
+                0
+            ]
+            new_prompt = f"""Использую следующию информацию:
+Симптомы: {helpful_data["symptoms"]}
+Специалисты, которые могут помочь: {helpful_data["Doctors"]}
+Возможное заболевание: {helpful_data["Diagnosis"]}
+Ты собрать эту информацию в удобный для пользователя вид и выдать как качественный осмысленный текст. Ничего больше.
+"""
+            # prompt += new_prompt
+            inputs = self.tokenizer(prompt + new_prompt, return_tensors="pt").to(
+                self.device
+            )
 
             out = self.model.generate(
                 **inputs,
