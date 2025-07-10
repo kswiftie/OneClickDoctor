@@ -2,11 +2,7 @@ import subprocess, paths, sys
 
 
 def fill_dbs():
-    py_files = list(paths.SETUP_DATASET_SCRIPTS.rglob("*.py"))
-
-    for file in py_files:
-        print(f"Running: {file}")
-        subprocess.check_call([sys.executable, f"{file}"])
+    subprocess.check_call([sys.executable, paths.FILL_WEAVIATE])
 
 
 def setup_dbs():
@@ -23,8 +19,8 @@ def setup_llm():
 
 def main_setup():
     paths.configure_python_path()
-    # setup_dbs()
-    # fill_dbs()
+    setup_dbs()
+    fill_dbs()
     setup_llm()
 
 

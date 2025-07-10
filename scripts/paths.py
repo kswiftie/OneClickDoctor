@@ -2,9 +2,10 @@ import os, pathlib
 
 ROOT = pathlib.Path(__file__).parent.parent
 # TESTS = ROOT / "tests"
-SETUP_DATASET_SCRIPTS = ROOT / "setup_scripts" / "fill_dbs" / "load_datasets"
-RUN_DBS_SCRIPT = ROOT / "setup_scripts" / "init_dbs.py"
-FILL_DBS_SCRIPT = ROOT / "setup_scripts" / "fill_dbs" / "init_collections.py"
+SETUP_DATASET_SCRIPTS = ROOT / "scripts" / "fill_dbs" / "load_sber"
+RUN_DBS_SCRIPT = ROOT / "scripts" / "setup_utils" / "init_dbs.py"
+FILL_DBS_SCRIPT = ROOT / "scripts" / "setup_utils" / "init_collections.py"
+FILL_WEAVIATE = ROOT / "scripts" / "setup_utils" / "load_sber.py"
 LLM_SERVER_PATH = ROOT / "llm_server"
 
 
