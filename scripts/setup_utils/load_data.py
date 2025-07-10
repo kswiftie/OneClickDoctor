@@ -2,7 +2,7 @@ import json
 
 from dbmanagers.vectordbmanagers.weaviate_manager import WManager
 
-with open("setup_data/sber.json", "r", encoding="utf-8") as f:
+with open("setup_data/ilnesses.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
 illnesses = data.get("illnesses", [])
